@@ -3,9 +3,12 @@ import type { Config } from "drizzle-kit";
 const config: Config = {
   out: "./src/drizzle",
   schema: ["./src/drizzle/auth-schema.ts"],
-  dialect: "mysql",
+  dialect: "sqlite",
+  driver: "d1-http",
   dbCredentials: {
-    url: `mysql://${process.env.DATABASE_USERNAME}:${process.env.DATABASE_PASSWORD}@${process.env.DATABASE_HOST}`,
+    accountId: process.env.CLOUDFLARE_ACCOUNT_ID!,
+    databaseId: process.env.CLOUDFLARE_DATABASE_ID!,
+    token: process.env.CLOUDFLARE_API_TOKEN!,
   },
   tablesFilter: ["!auth_*"],
 };

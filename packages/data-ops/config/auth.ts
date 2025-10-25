@@ -1,17 +1,14 @@
 // packages/data-ops/config/auth.ts
 import { createBetterAuth } from "../src/auth/setup";
-import { initDatabase } from "../src/database/setup";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
+import { drizzle } from "drizzle-orm/better-sqlite3";
+import Database from "better-sqlite3";
+
+const sqlite = new Database(".wrangler/state/v3/d1/miniflare-D1DatabaseObject/haryanvibe-db.sqlite");
+const db = drizzle(sqlite);
 
 export const auth = createBetterAuth({
-  database: drizzleAdapter(
-    initDatabase({
-      password: process.env.DATABASE_PASSWORD!,
-      host: process.env.DATABASE_HOST!,
-      username: process.env.DATABASE_USERNAME!,
-    }),
-    {
-      provider: "mysql",
-    },
-  ),
+  database: drizzleAdapter(db, {
+    provider: "sqlite",
+  }),
 });
