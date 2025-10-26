@@ -98,9 +98,7 @@ packages/
 ### Database & Auth Setup
 **Database:** Cloudflare D1 (SQLite), initialized via `initDatabase(d1: D1Database)` with D1 binding from env
 
-**Why D1 over MySQL:**
-- Cloudflare native - single platform for Workers + DB
-- Simpler billing - no separate PlanetScale account
+**Why NO local db ? :**
 - Deploy-first approach works better than local dev (D1 bindings complex in Vite)
 
 **Auth:** Better Auth with Drizzle adapter (SQLite)
