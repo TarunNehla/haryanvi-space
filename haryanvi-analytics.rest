@@ -1,0 +1,34 @@
+### Get Top Artists (Default: popularity desc, page 1)
+GET http://localhost:3000/api/artists
+
+### Get Artists - Page 2
+GET http://localhost:3000/api/artists?page=2
+
+### Get Artists - Sort by followers ascending
+GET http://localhost:3000/api/artists?sortBy=followers&order=asc
+
+### Get Artists - Custom limit
+GET http://localhost:3000/api/artists?limit=50
+
+### Get Artists - Sort by followers desc, page 3, limit 10
+GET http://localhost:3000/api/artists?page=3&limit=10&sortBy=followers&order=desc
+
+###
+
+### Get Top Songs (Default: popularity desc, page 1)
+GET http://localhost:3000/api/songs
+
+### Get Songs - Page 2
+GET http://localhost:3000/api/songs?page=2
+
+### Get Songs - Sort by release date descending
+GET http://localhost:3000/api/songs?sortBy=releaseDate&order=desc
+
+### Get Songs - Sort by release date ascending (oldest first)
+GET http://localhost:3000/api/songs?sortBy=releaseDate&order=asc
+
+### Get Songs - Custom limit
+GET http://localhost:3000/api/songs?limit=100
+
+### Get Songs - Sort by popularity asc, page 5, limit 25
+GET http://localhost:3000/api/songs?page=5&limit=25&sortBy=popularity&order=asc

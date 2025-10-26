@@ -11,11 +11,11 @@ Building a music analytics platform for Haryanvi music industry using Spotify da
 - [x] Rebuild data-ops package (`pnpm run build:data-ops`)
 - [x] Verify exports work in user-application
 
-### ⏳ Phase 2: Query Layer (TODO - Needs Brainstorming)
-- [ ] Create query functions for top artists/songs
-- [ ] Define query parameters & return types
-- [ ] Export from data-ops package
-- _Note: Detailed planning needed before implementation_
+### ✅ Phase 2: Query Layer (COMPLETE)
+- [x] Create query functions for top artists/songs
+- [x] Define query parameters & return types (offset pagination)
+- [x] Export from data-ops package
+- [x] Document pagination decision in CLAUDE.md
 
 ### ⏳ Phase 3: Homepage UI (TODO - Needs Brainstorming)
 - [ ] Design minimal list layout
@@ -33,7 +33,10 @@ Building a music analytics platform for Haryanvi music industry using Spotify da
 ## Current State
 - ✅ Schema integrated into data-ops: `packages/data-ops/src/drizzle/haryanvibe-schema.ts`
 - ✅ Schema exports available: `@repo/data-ops/drizzle/haryanvibe-schema`
-- ✅ data-ops package built with schema included
+- ✅ Query functions created: `packages/data-ops/src/queries/haryanvibe.ts`
+- ✅ Offset pagination with sort options (popularity, followers, releaseDate)
+- ✅ Pagination decision documented in CLAUDE.md
+- ✅ data-ops package built with schema + queries
 - D1 database tables already created and populated with data
 - Tables: `haryanvibe_artists`, `haryanvibe_songs`, `song_artists`
 - All artists/songs have required images
@@ -41,17 +44,18 @@ Building a music analytics platform for Haryanvi music industry using Spotify da
 
 ## Next Steps
 1. ✅ ~~Implement Phase 1 (Schema Integration)~~ - COMPLETE
-2. Brainstorm Phase 2 (Query Layer) - discuss query design, performance
-3. Brainstorm Phase 3 (Homepage UI) - finalize visual approach
+2. ✅ ~~Brainstorm Phase 2 (Query Layer)~~ - COMPLETE
+3. Brainstorm Phase 3 (Homepage UI) - finalize visual approach, server functions
 
 ## Blockers
 None
 
 ## Key Files
-- `haryanvibe-schema.ts` - Source schema (root, to be moved)
-- `packages/data-ops/src/drizzle/` - Target location for schema
+- `packages/data-ops/src/drizzle/haryanvibe-schema.ts` - Haryanvi schema
+- `packages/data-ops/src/queries/haryanvibe.ts` - Query functions (getArtists, getSongs)
 - `packages/data-ops/package.json` - Export paths configuration
 - `apps/user-application/src/routes/index.tsx` - Homepage (Phase 3)
+- `CLAUDE.md` - Pagination decision documented
 
 ## Delete After
 Feature is merged and tested

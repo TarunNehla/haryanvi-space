@@ -141,5 +141,7 @@ packages/
 
 **TanStack Query SSR:** Setup via `setupRouterSsrQueryIntegration` in router.tsx, query client in route context.
 
+**Pagination Strategy (Haryanvi Analytics):** Offset-based pagination used for MVP simplicity. Performs well for first 10-20 pages with datasets under 100K records. Migrate to cursor-based if deep pagination (page 50+) becomes common or dataset exceeds 500K records.
+
 ## Documentation
 See apps/user-application/public/docs/ for detailed guides on authentication.md and polar.md
