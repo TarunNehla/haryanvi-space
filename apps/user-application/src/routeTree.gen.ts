@@ -12,6 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StaticRouteRouteImport } from './routes/_static/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiSongsRouteImport } from './routes/api/songs'
+import { Route as ApiArtistsRouteImport } from './routes/api/artists'
 import { Route as StaticDocsIndexRouteImport } from './routes/_static/docs/index'
 import { Route as AuthAppIndexRouteImport } from './routes/_auth/app/index'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
@@ -31,6 +33,16 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiSongsRoute = ApiSongsRouteImport.update({
+  id: '/api/songs',
+  path: '/api/songs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiArtistsRoute = ApiArtistsRouteImport.update({
+  id: '/api/artists',
+  path: '/api/artists',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StaticDocsIndexRoute = StaticDocsIndexRouteImport.update({
@@ -73,6 +85,8 @@ const AuthAppPolarCheckoutSuccessRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/artists': typeof ApiArtistsRoute
+  '/api/songs': typeof ApiSongsRoute
   '/docs/$name': typeof StaticDocsNameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app': typeof AuthAppIndexRoute
@@ -83,6 +97,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/artists': typeof ApiArtistsRoute
+  '/api/songs': typeof ApiSongsRoute
   '/docs/$name': typeof StaticDocsNameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/app': typeof AuthAppIndexRoute
@@ -96,6 +112,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/_static': typeof StaticRouteRouteWithChildren
+  '/api/artists': typeof ApiArtistsRoute
+  '/api/songs': typeof ApiSongsRoute
   '/_static/docs/$name': typeof StaticDocsNameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_auth/app/': typeof AuthAppIndexRoute
@@ -108,6 +126,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/api/artists'
+    | '/api/songs'
     | '/docs/$name'
     | '/api/auth/$'
     | '/app'
@@ -118,6 +138,8 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/api/artists'
+    | '/api/songs'
     | '/docs/$name'
     | '/api/auth/$'
     | '/app'
@@ -130,6 +152,8 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_static'
+    | '/api/artists'
+    | '/api/songs'
     | '/_static/docs/$name'
     | '/api/auth/$'
     | '/_auth/app/'
@@ -143,6 +167,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   StaticRouteRoute: typeof StaticRouteRouteWithChildren
+  ApiArtistsRoute: typeof ApiArtistsRoute
+  ApiSongsRoute: typeof ApiSongsRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -167,6 +193,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/songs': {
+      id: '/api/songs'
+      path: '/api/songs'
+      fullPath: '/api/songs'
+      preLoaderRoute: typeof ApiSongsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/artists': {
+      id: '/api/artists'
+      path: '/api/artists'
+      fullPath: '/api/artists'
+      preLoaderRoute: typeof ApiArtistsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_static/docs/': {
@@ -257,6 +297,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   StaticRouteRoute: StaticRouteRouteWithChildren,
+  ApiArtistsRoute: ApiArtistsRoute,
+  ApiSongsRoute: ApiSongsRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport

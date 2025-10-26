@@ -17,9 +17,18 @@ Building a music analytics platform for Haryanvi music industry using Spotify da
 - [x] Export from data-ops package
 - [x] Document pagination decision in CLAUDE.md
 
-### ⏳ Phase 3: Homepage UI (TODO - Needs Brainstorming)
+### ✅ Phase 3A: Server Functions (COMPLETE)
+- [x] Create API routes for /api/artists and /api/songs
+- [x] Implement server functions using query layer
+- [x] Handle query params (page, limit, sortBy, order)
+- [x] Return JSON responses with pagination metadata
+- [x] Test with .rest client
+- [x] Fix OAuth for local dev (baseURL + trustedOrigins)
+- [x] Add watch mode scripts for faster iteration
+
+### ⏳ Phase 3B: Homepage UI (TODO - Needs Brainstorming)
 - [ ] Design minimal list layout
-- [ ] Implement server-side data fetching
+- [ ] Implement client-side data fetching from server functions
 - [ ] Render top 10 artists section
 - [ ] Render top 10 songs section
 - _Note: UI approach, styling, responsiveness need discussion_
@@ -36,7 +45,10 @@ Building a music analytics platform for Haryanvi music industry using Spotify da
 - ✅ Query functions created: `packages/data-ops/src/queries/haryanvibe.ts`
 - ✅ Offset pagination with sort options (popularity, followers, releaseDate)
 - ✅ Pagination decision documented in CLAUDE.md
-- ✅ data-ops package built with schema + queries
+- ✅ API routes: `/api/artists` and `/api/songs` working with remote D1
+- ✅ OAuth fixed for local dev (baseURL + trustedOrigins in Better Auth)
+- ✅ Watch mode scripts added for faster dev iteration
+- ✅ Dev workflow: wrangler dev --remote (connects to production D1)
 - D1 database tables already created and populated with data
 - Tables: `haryanvibe_artists`, `haryanvibe_songs`, `song_artists`
 - All artists/songs have required images
@@ -45,7 +57,8 @@ Building a music analytics platform for Haryanvi music industry using Spotify da
 ## Next Steps
 1. ✅ ~~Implement Phase 1 (Schema Integration)~~ - COMPLETE
 2. ✅ ~~Brainstorm Phase 2 (Query Layer)~~ - COMPLETE
-3. Brainstorm Phase 3 (Homepage UI) - finalize visual approach, server functions
+3. ✅ ~~Implement Phase 3A (Server Functions)~~ - COMPLETE
+4. Brainstorm Phase 3B (Homepage UI) - finalize visual approach
 
 ## Blockers
 None
@@ -53,8 +66,12 @@ None
 ## Key Files
 - `packages/data-ops/src/drizzle/haryanvibe-schema.ts` - Haryanvi schema
 - `packages/data-ops/src/queries/haryanvibe.ts` - Query functions (getArtists, getSongs)
-- `packages/data-ops/package.json` - Export paths configuration
-- `apps/user-application/src/routes/index.tsx` - Homepage (Phase 3)
+- `packages/data-ops/src/auth/setup.ts` - Better Auth config (baseURL, trustedOrigins)
+- `apps/user-application/src/routes/api/artists.tsx` - Artists API route
+- `apps/user-application/src/routes/api/songs.tsx` - Songs API route
+- `apps/user-application/src/server.ts` - Custom server entry (DB + Auth init)
+- `apps/user-application/src/routes/index.tsx` - Homepage (Phase 3B)
+- `haryanvi-analytics.rest` - API test requests
 - `CLAUDE.md` - Pagination decision documented
 
 ## Delete After
