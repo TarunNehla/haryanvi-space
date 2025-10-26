@@ -14,14 +14,12 @@ import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiSongsRouteImport } from './routes/api/songs'
 import { Route as ApiArtistsRouteImport } from './routes/api/artists'
-import { Route as StaticDocsIndexRouteImport } from './routes/_static/docs/index'
 import { Route as AuthAppIndexRouteImport } from './routes/_auth/app/index'
 import { Route as ChartsSongsPopularRouteImport } from './routes/charts/songs/popular'
 import { Route as ChartsSongsLatestRouteImport } from './routes/charts/songs/latest'
 import { Route as ChartsArtistsPopularRouteImport } from './routes/charts/artists/popular'
 import { Route as ChartsArtistsFollowersRouteImport } from './routes/charts/artists/followers'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
-import { Route as StaticDocsNameRouteImport } from './routes/_static/docs/$name'
 import { Route as AuthAppPolarSubscriptionsRouteImport } from './routes/_auth/app/polar/subscriptions'
 import { Route as AuthAppPolarPortalRouteImport } from './routes/_auth/app/polar/portal'
 import { Route as AuthAppPolarCheckoutSuccessRouteImport } from './routes/_auth/app/polar/checkout.success'
@@ -48,11 +46,6 @@ const ApiArtistsRoute = ApiArtistsRouteImport.update({
   id: '/api/artists',
   path: '/api/artists',
   getParentRoute: () => rootRouteImport,
-} as any)
-const StaticDocsIndexRoute = StaticDocsIndexRouteImport.update({
-  id: '/docs/',
-  path: '/docs/',
-  getParentRoute: () => StaticRouteRoute,
 } as any)
 const AuthAppIndexRoute = AuthAppIndexRouteImport.update({
   id: '/app/',
@@ -84,11 +77,6 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
-const StaticDocsNameRoute = StaticDocsNameRouteImport.update({
-  id: '/docs/$name',
-  path: '/docs/$name',
-  getParentRoute: () => StaticRouteRoute,
-} as any)
 const AuthAppPolarSubscriptionsRoute =
   AuthAppPolarSubscriptionsRouteImport.update({
     id: '/app/polar/subscriptions',
@@ -111,14 +99,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
-  '/docs/$name': typeof StaticDocsNameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
   '/charts/artists/popular': typeof ChartsArtistsPopularRoute
   '/charts/songs/latest': typeof ChartsSongsLatestRoute
   '/charts/songs/popular': typeof ChartsSongsPopularRoute
   '/app': typeof AuthAppIndexRoute
-  '/docs': typeof StaticDocsIndexRoute
   '/app/polar/portal': typeof AuthAppPolarPortalRoute
   '/app/polar/subscriptions': typeof AuthAppPolarSubscriptionsRoute
   '/app/polar/checkout/success': typeof AuthAppPolarCheckoutSuccessRoute
@@ -127,14 +113,12 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
-  '/docs/$name': typeof StaticDocsNameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
   '/charts/artists/popular': typeof ChartsArtistsPopularRoute
   '/charts/songs/latest': typeof ChartsSongsLatestRoute
   '/charts/songs/popular': typeof ChartsSongsPopularRoute
   '/app': typeof AuthAppIndexRoute
-  '/docs': typeof StaticDocsIndexRoute
   '/app/polar/portal': typeof AuthAppPolarPortalRoute
   '/app/polar/subscriptions': typeof AuthAppPolarSubscriptionsRoute
   '/app/polar/checkout/success': typeof AuthAppPolarCheckoutSuccessRoute
@@ -143,17 +127,15 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
-  '/_static': typeof StaticRouteRouteWithChildren
+  '/_static': typeof StaticRouteRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
-  '/_static/docs/$name': typeof StaticDocsNameRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
   '/charts/artists/popular': typeof ChartsArtistsPopularRoute
   '/charts/songs/latest': typeof ChartsSongsLatestRoute
   '/charts/songs/popular': typeof ChartsSongsPopularRoute
   '/_auth/app/': typeof AuthAppIndexRoute
-  '/_static/docs/': typeof StaticDocsIndexRoute
   '/_auth/app/polar/portal': typeof AuthAppPolarPortalRoute
   '/_auth/app/polar/subscriptions': typeof AuthAppPolarSubscriptionsRoute
   '/_auth/app/polar/checkout/success': typeof AuthAppPolarCheckoutSuccessRoute
@@ -164,14 +146,12 @@ export interface FileRouteTypes {
     | '/'
     | '/api/artists'
     | '/api/songs'
-    | '/docs/$name'
     | '/api/auth/$'
     | '/charts/artists/followers'
     | '/charts/artists/popular'
     | '/charts/songs/latest'
     | '/charts/songs/popular'
     | '/app'
-    | '/docs'
     | '/app/polar/portal'
     | '/app/polar/subscriptions'
     | '/app/polar/checkout/success'
@@ -180,14 +160,12 @@ export interface FileRouteTypes {
     | '/'
     | '/api/artists'
     | '/api/songs'
-    | '/docs/$name'
     | '/api/auth/$'
     | '/charts/artists/followers'
     | '/charts/artists/popular'
     | '/charts/songs/latest'
     | '/charts/songs/popular'
     | '/app'
-    | '/docs'
     | '/app/polar/portal'
     | '/app/polar/subscriptions'
     | '/app/polar/checkout/success'
@@ -198,14 +176,12 @@ export interface FileRouteTypes {
     | '/_static'
     | '/api/artists'
     | '/api/songs'
-    | '/_static/docs/$name'
     | '/api/auth/$'
     | '/charts/artists/followers'
     | '/charts/artists/popular'
     | '/charts/songs/latest'
     | '/charts/songs/popular'
     | '/_auth/app/'
-    | '/_static/docs/'
     | '/_auth/app/polar/portal'
     | '/_auth/app/polar/subscriptions'
     | '/_auth/app/polar/checkout/success'
@@ -214,7 +190,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
-  StaticRouteRoute: typeof StaticRouteRouteWithChildren
+  StaticRouteRoute: typeof StaticRouteRoute
   ApiArtistsRoute: typeof ApiArtistsRoute
   ApiSongsRoute: typeof ApiSongsRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -261,13 +237,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiArtistsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_static/docs/': {
-      id: '/_static/docs/'
-      path: '/docs'
-      fullPath: '/docs'
-      preLoaderRoute: typeof StaticDocsIndexRouteImport
-      parentRoute: typeof StaticRouteRoute
-    }
     '/_auth/app/': {
       id: '/_auth/app/'
       path: '/app'
@@ -309,13 +278,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/_static/docs/$name': {
-      id: '/_static/docs/$name'
-      path: '/docs/$name'
-      fullPath: '/docs/$name'
-      preLoaderRoute: typeof StaticDocsNameRouteImport
-      parentRoute: typeof StaticRouteRoute
     }
     '/_auth/app/polar/subscriptions': {
       id: '/_auth/app/polar/subscriptions'
@@ -359,24 +321,10 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
-interface StaticRouteRouteChildren {
-  StaticDocsNameRoute: typeof StaticDocsNameRoute
-  StaticDocsIndexRoute: typeof StaticDocsIndexRoute
-}
-
-const StaticRouteRouteChildren: StaticRouteRouteChildren = {
-  StaticDocsNameRoute: StaticDocsNameRoute,
-  StaticDocsIndexRoute: StaticDocsIndexRoute,
-}
-
-const StaticRouteRouteWithChildren = StaticRouteRoute._addFileChildren(
-  StaticRouteRouteChildren,
-)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
-  StaticRouteRoute: StaticRouteRouteWithChildren,
+  StaticRouteRoute: StaticRouteRoute,
   ApiArtistsRoute: ApiArtistsRoute,
   ApiSongsRoute: ApiSongsRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
