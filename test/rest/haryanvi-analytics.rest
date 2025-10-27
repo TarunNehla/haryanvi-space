@@ -32,3 +32,23 @@ GET http://localhost:3000/api/songs?limit=100
 
 ### Get Songs - Sort by popularity asc, page 5, limit 25
 GET http://localhost:3000/api/songs?page=5&limit=25&sortBy=popularity&order=asc
+
+###
+
+### Get Artist Detail (replace {artistId} with real ID from /api/artists)
+GET http://localhost:3000/api/artist/{artistId}
+
+### Get Artist Popular Songs - Paginated (page 1, default limit 20)
+GET http://localhost:3000/api/artist/{artistId}/songs?type=popular
+
+### Get Artist Popular Songs - Page 2
+GET http://localhost:3000/api/artist/{artistId}/songs?type=popular&page=2
+
+### Get Artist Popular Songs - Custom limit
+GET http://localhost:3000/api/artist/{artistId}/songs?type=popular&limit=50
+
+### Get Artist Recent Songs - Paginated (page 1, default limit 20)
+GET http://localhost:3000/api/artist/{artistId}/songs?type=recent
+
+### Get Artist Recent Songs - Page 2
+GET http://localhost:3000/api/artist/{artistId}/songs?type=recent&page=2

@@ -20,6 +20,8 @@ import { Route as ChartsSongsLatestRouteImport } from './routes/charts/songs/lat
 import { Route as ChartsArtistsPopularRouteImport } from './routes/charts/artists/popular'
 import { Route as ChartsArtistsFollowersRouteImport } from './routes/charts/artists/followers'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth.$'
+import { Route as ApiArtistArtistIdRouteImport } from './routes/api/artist.$artistId'
+import { Route as ApiArtistArtistIdSongsRouteImport } from './routes/api/artist.$artistId.songs'
 import { Route as AuthAppPolarSubscriptionsRouteImport } from './routes/_auth/app/polar/subscriptions'
 import { Route as AuthAppPolarPortalRouteImport } from './routes/_auth/app/polar/portal'
 import { Route as AuthAppPolarCheckoutSuccessRouteImport } from './routes/_auth/app/polar/checkout.success'
@@ -77,6 +79,16 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiArtistArtistIdRoute = ApiArtistArtistIdRouteImport.update({
+  id: '/api/artist/$artistId',
+  path: '/api/artist/$artistId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiArtistArtistIdSongsRoute = ApiArtistArtistIdSongsRouteImport.update({
+  id: '/songs',
+  path: '/songs',
+  getParentRoute: () => ApiArtistArtistIdRoute,
+} as any)
 const AuthAppPolarSubscriptionsRoute =
   AuthAppPolarSubscriptionsRouteImport.update({
     id: '/app/polar/subscriptions',
@@ -99,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
+  '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
   '/charts/artists/popular': typeof ChartsArtistsPopularRoute
@@ -107,12 +120,14 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthAppIndexRoute
   '/app/polar/portal': typeof AuthAppPolarPortalRoute
   '/app/polar/subscriptions': typeof AuthAppPolarSubscriptionsRoute
+  '/api/artist/$artistId/songs': typeof ApiArtistArtistIdSongsRoute
   '/app/polar/checkout/success': typeof AuthAppPolarCheckoutSuccessRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
+  '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
   '/charts/artists/popular': typeof ChartsArtistsPopularRoute
@@ -121,6 +136,7 @@ export interface FileRoutesByTo {
   '/app': typeof AuthAppIndexRoute
   '/app/polar/portal': typeof AuthAppPolarPortalRoute
   '/app/polar/subscriptions': typeof AuthAppPolarSubscriptionsRoute
+  '/api/artist/$artistId/songs': typeof ApiArtistArtistIdSongsRoute
   '/app/polar/checkout/success': typeof AuthAppPolarCheckoutSuccessRoute
 }
 export interface FileRoutesById {
@@ -130,6 +146,7 @@ export interface FileRoutesById {
   '/_static': typeof StaticRouteRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
+  '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
   '/charts/artists/popular': typeof ChartsArtistsPopularRoute
@@ -138,6 +155,7 @@ export interface FileRoutesById {
   '/_auth/app/': typeof AuthAppIndexRoute
   '/_auth/app/polar/portal': typeof AuthAppPolarPortalRoute
   '/_auth/app/polar/subscriptions': typeof AuthAppPolarSubscriptionsRoute
+  '/api/artist/$artistId/songs': typeof ApiArtistArtistIdSongsRoute
   '/_auth/app/polar/checkout/success': typeof AuthAppPolarCheckoutSuccessRoute
 }
 export interface FileRouteTypes {
@@ -146,6 +164,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api/artists'
     | '/api/songs'
+    | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
     | '/charts/artists/popular'
@@ -154,12 +173,14 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/polar/portal'
     | '/app/polar/subscriptions'
+    | '/api/artist/$artistId/songs'
     | '/app/polar/checkout/success'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/api/artists'
     | '/api/songs'
+    | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
     | '/charts/artists/popular'
@@ -168,6 +189,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/app/polar/portal'
     | '/app/polar/subscriptions'
+    | '/api/artist/$artistId/songs'
     | '/app/polar/checkout/success'
   id:
     | '__root__'
@@ -176,6 +198,7 @@ export interface FileRouteTypes {
     | '/_static'
     | '/api/artists'
     | '/api/songs'
+    | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
     | '/charts/artists/popular'
@@ -184,6 +207,7 @@ export interface FileRouteTypes {
     | '/_auth/app/'
     | '/_auth/app/polar/portal'
     | '/_auth/app/polar/subscriptions'
+    | '/api/artist/$artistId/songs'
     | '/_auth/app/polar/checkout/success'
   fileRoutesById: FileRoutesById
 }
@@ -193,6 +217,7 @@ export interface RootRouteChildren {
   StaticRouteRoute: typeof StaticRouteRoute
   ApiArtistsRoute: typeof ApiArtistsRoute
   ApiSongsRoute: typeof ApiSongsRoute
+  ApiArtistArtistIdRoute: typeof ApiArtistArtistIdRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ChartsArtistsFollowersRoute: typeof ChartsArtistsFollowersRoute
   ChartsArtistsPopularRoute: typeof ChartsArtistsPopularRoute
@@ -279,6 +304,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/artist/$artistId': {
+      id: '/api/artist/$artistId'
+      path: '/api/artist/$artistId'
+      fullPath: '/api/artist/$artistId'
+      preLoaderRoute: typeof ApiArtistArtistIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/artist/$artistId/songs': {
+      id: '/api/artist/$artistId/songs'
+      path: '/songs'
+      fullPath: '/api/artist/$artistId/songs'
+      preLoaderRoute: typeof ApiArtistArtistIdSongsRouteImport
+      parentRoute: typeof ApiArtistArtistIdRoute
+    }
     '/_auth/app/polar/subscriptions': {
       id: '/_auth/app/polar/subscriptions'
       path: '/app/polar/subscriptions'
@@ -321,12 +360,24 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface ApiArtistArtistIdRouteChildren {
+  ApiArtistArtistIdSongsRoute: typeof ApiArtistArtistIdSongsRoute
+}
+
+const ApiArtistArtistIdRouteChildren: ApiArtistArtistIdRouteChildren = {
+  ApiArtistArtistIdSongsRoute: ApiArtistArtistIdSongsRoute,
+}
+
+const ApiArtistArtistIdRouteWithChildren =
+  ApiArtistArtistIdRoute._addFileChildren(ApiArtistArtistIdRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   StaticRouteRoute: StaticRouteRoute,
   ApiArtistsRoute: ApiArtistsRoute,
   ApiSongsRoute: ApiSongsRoute,
+  ApiArtistArtistIdRoute: ApiArtistArtistIdRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ChartsArtistsFollowersRoute: ChartsArtistsFollowersRoute,
   ChartsArtistsPopularRoute: ChartsArtistsPopularRoute,

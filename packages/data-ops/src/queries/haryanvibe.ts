@@ -1,10 +1,11 @@
-import { desc, asc } from "drizzle-orm";
+import { desc, asc, eq } from "drizzle-orm";
 import type { DrizzleD1Database } from "drizzle-orm/d1";
-import { haryanvibeArtists, haryanvibeSongs, type Artist, type Song } from "../drizzle/haryanvibe-schema";
+import { haryanvibeArtists, haryanvibeSongs, songArtists, type Artist, type Song } from "../drizzle/haryanvibe-schema";
 
 export type ArtistSortField = "popularity" | "followers";
 export type SongSortField = "popularity" | "releaseDate";
 export type SortOrder = "asc" | "desc";
+export type ArtistSongType = "popular" | "recent";
 
 export type ArtistQueryParams = {
   page?: number;
@@ -63,6 +64,63 @@ export async function getSongs(
     .select()
     .from(haryanvibeSongs)
     .orderBy(sortFn(sortField), asc(haryanvibeSongs.id))
+    .limit(limit + 1)
+    .offset(offset);
+
+  const hasNextPage = results.length > limit;
+  const data = hasNextPage ? results.slice(0, limit) : results;
+
+  return { data, page, hasNextPage };
+}
+
+export async function getArtistById(
+  artistId: string,
+  db: DrizzleD1Database
+): Promise<Artist | null> {
+  const result = await db
+    .select()
+    .from(haryanvibeArtists)
+    .where(eq(haryanvibeArtists.id, artistId))
+    .limit(1);
+
+  return result[0] ?? null;
+}
+
+export async function getArtistSongsByType(
+  artistId: string,
+  type: ArtistSongType,
+  db: DrizzleD1Database,
+  page = 1,
+  limit = 20
+): Promise<PaginatedResponse<Song>> {
+  const offset = (page - 1) * limit;
+
+  const sortField = type === "popular" ? haryanvibeSongs.popularity : haryanvibeSongs.releaseDate;
+
+  const results = await db
+    .select({
+      id: haryanvibeSongs.id,
+      title: haryanvibeSongs.title,
+      artists: haryanvibeSongs.artists,
+      duration: haryanvibeSongs.duration,
+      explicit: haryanvibeSongs.explicit,
+      imageUrl: haryanvibeSongs.imageUrl,
+      albumId: haryanvibeSongs.albumId,
+      albumName: haryanvibeSongs.albumName,
+      trackNumber: haryanvibeSongs.trackNumber,
+      discNumber: haryanvibeSongs.discNumber,
+      releaseDate: haryanvibeSongs.releaseDate,
+      releaseDatePrecision: haryanvibeSongs.releaseDatePrecision,
+      popularity: haryanvibeSongs.popularity,
+      spotifyUrl: haryanvibeSongs.spotifyUrl,
+      spotifyId: haryanvibeSongs.spotifyId,
+      createdAt: haryanvibeSongs.createdAt,
+      updatedAt: haryanvibeSongs.updatedAt,
+    })
+    .from(songArtists)
+    .innerJoin(haryanvibeSongs, eq(songArtists.songId, haryanvibeSongs.id))
+    .where(eq(songArtists.artistId, artistId))
+    .orderBy(desc(sortField), asc(haryanvibeSongs.id))
     .limit(limit + 1)
     .offset(offset);
 
