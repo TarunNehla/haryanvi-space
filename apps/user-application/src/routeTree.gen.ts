@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StaticRouteRouteImport } from './routes/_static/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArtistArtistIdRouteImport } from './routes/artist.$artistId'
 import { Route as ApiSongsRouteImport } from './routes/api/songs'
 import { Route as ApiArtistsRouteImport } from './routes/api/artists'
 import { Route as AuthAppIndexRouteImport } from './routes/_auth/app/index'
@@ -37,6 +38,11 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArtistArtistIdRoute = ArtistArtistIdRouteImport.update({
+  id: '/artist/$artistId',
+  path: '/artist/$artistId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiSongsRoute = ApiSongsRouteImport.update({
@@ -111,6 +117,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
+  '/artist/$artistId': typeof ArtistArtistIdRoute
   '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
@@ -127,6 +134,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
+  '/artist/$artistId': typeof ArtistArtistIdRoute
   '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
@@ -146,6 +154,7 @@ export interface FileRoutesById {
   '/_static': typeof StaticRouteRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
+  '/artist/$artistId': typeof ArtistArtistIdRoute
   '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
@@ -164,6 +173,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api/artists'
     | '/api/songs'
+    | '/artist/$artistId'
     | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
@@ -180,6 +190,7 @@ export interface FileRouteTypes {
     | '/'
     | '/api/artists'
     | '/api/songs'
+    | '/artist/$artistId'
     | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/_static'
     | '/api/artists'
     | '/api/songs'
+    | '/artist/$artistId'
     | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
@@ -217,6 +229,7 @@ export interface RootRouteChildren {
   StaticRouteRoute: typeof StaticRouteRoute
   ApiArtistsRoute: typeof ApiArtistsRoute
   ApiSongsRoute: typeof ApiSongsRoute
+  ArtistArtistIdRoute: typeof ArtistArtistIdRoute
   ApiArtistArtistIdRoute: typeof ApiArtistArtistIdRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ChartsArtistsFollowersRoute: typeof ChartsArtistsFollowersRoute
@@ -246,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/artist/$artistId': {
+      id: '/artist/$artistId'
+      path: '/artist/$artistId'
+      fullPath: '/artist/$artistId'
+      preLoaderRoute: typeof ArtistArtistIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/songs': {
@@ -377,6 +397,7 @@ const rootRouteChildren: RootRouteChildren = {
   StaticRouteRoute: StaticRouteRoute,
   ApiArtistsRoute: ApiArtistsRoute,
   ApiSongsRoute: ApiSongsRoute,
+  ArtistArtistIdRoute: ArtistArtistIdRoute,
   ApiArtistArtistIdRoute: ApiArtistArtistIdRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ChartsArtistsFollowersRoute: ChartsArtistsFollowersRoute,
