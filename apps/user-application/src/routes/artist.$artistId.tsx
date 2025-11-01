@@ -157,6 +157,7 @@ function ArtistDetailPage() {
   const currentSongs = activeTab === "popular" ? popularSongs : recentSongs;
   const currentQuery = activeTab === "popular" ? popularQuery : recentQuery;
   const hasMore = currentQuery.hasNextPage ?? false;
+  const isLoadingTab = currentQuery.isLoading;
   const isLoadingMore = currentQuery.isFetchingNextPage;
   const onLoadMore = () => currentQuery.fetchNextPage();
 
@@ -180,6 +181,7 @@ function ArtistDetailPage() {
         <SongList
           songs={currentSongs}
           hasMore={hasMore}
+          isLoading={isLoadingTab}
           isLoadingMore={isLoadingMore}
           onLoadMore={onLoadMore}
         />

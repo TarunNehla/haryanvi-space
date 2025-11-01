@@ -2,17 +2,29 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { SongCardSkeleton } from "@/components/artist/song-card-skeleton";
 import type { Song } from "@repo/data-ops/drizzle/haryanvibe-schema";
 import { Calendar, Clock } from "lucide-react";
 
 interface SongListProps {
   songs: Song[];
   hasMore: boolean;
+  isLoading: boolean;
   isLoadingMore: boolean;
   onLoadMore: () => void;
 }
 
-export function SongList({ songs, hasMore, isLoadingMore, onLoadMore }: SongListProps) {
+export function SongList({ songs, hasMore, isLoading, isLoadingMore, onLoadMore }: SongListProps) {
+  if (isLoading) {
+    return (
+      <div className="space-y-3">
+        {Array.from({ length: 8 }).map((_, i) => (
+          <SongCardSkeleton key={i} />
+        ))}
+      </div>
+    );
+  }
+
   if (songs.length === 0) {
     return (
       <div className="text-center py-12 text-muted-foreground">

@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__wait_for",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__figma-desktop__get_design_context",
+      "mcp__shadcn__search_items_in_registries",
+      "mcp__shadcn__get_item_examples_from_registries",
+      "mcp__shadcn__view_items_in_registries",
+      "mcp__shadcn__get_add_command_for_items",
+      "Bash(pnpm dlx:*)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__click"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
