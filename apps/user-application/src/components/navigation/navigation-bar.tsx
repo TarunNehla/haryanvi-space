@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "@tanstack/react-router";
-import { Menu, Github, ExternalLink, LogIn } from "lucide-react";
+import { Menu, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -15,27 +15,6 @@ import { ThemeToggle } from "@/components/theme";
 import { authClient } from "@/lib/auth-client";
 import { AccountDialog } from "@/components/auth/account-dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
-interface NavigationItem {
-  label: string;
-  href: string;
-  isExternal?: boolean;
-  scrollTo?: string;
-}
-
-const navigationItems: NavigationItem[] = [
-  { label: "Features", href: "/#features", scrollTo: "features" },
-  {
-    label: "Documentation",
-    href: "/docs",
-    isExternal: false,
-  },
-  {
-    label: "GitHub",
-    href: "https://github.com/backpine/saas-kit",
-    isExternal: true,
-  },
-];
 
 export function NavigationBar() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -63,20 +42,6 @@ export function NavigationBar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleSmoothScroll = (elementId: string) => {
-    const element = document.getElementById(elementId);
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
-
-  const handleNavClick = (item: NavigationItem) => {
-    setIsOpen(false);
-  };
-
   return (
     <nav
       className={cn(
@@ -95,53 +60,17 @@ export function NavigationBar() {
           >
             <div className="flex flex-col">
               <span className="text-lg lg:text-xl font-bold bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent group-hover:from-primary group-hover:to-primary/80 transition-all duration-300">
-                SaaS Starter Kit
+                Haryanvi-Slang
               </span>
               <span className="text-xs text-muted-foreground font-medium tracking-wider">
-                on CLOUDFLARE
+                Different Maari Tone
               </span>
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-1">
-            {navigationItems.map((item) => (
-              <div key={item.label} className="relative group">
-                {item.isExternal ? (
-                  <a
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-accent/50 group"
-                  >
-                    <span>{item.label}</span>
-                    {item.label === "GitHub" ? (
-                      <Github className="h-4 w-4" />
-                    ) : (
-                      <ExternalLink className="h-4 w-4" />
-                    )}
-                  </a>
-                ) : (
-                  <Link
-                    to={item.href}
-                    onClick={() => handleNavClick(item)}
-                    className="px-4 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-accent/50 block"
-                  >
-                    {item.label}
-                  </Link>
-                )}
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-0 h-0.5 bg-gradient-to-r from-primary to-primary/80 transition-all duration-300 group-hover:w-3/4" />
-              </div>
-            ))}
-
-            {/* Theme Toggle */}
-            <div className="ml-2 pl-2 border-l border-border/30">
-              <ThemeToggle variant="ghost" align="end" />
-            </div>
-          </div>
-
-          {/* Auth Button - Desktop */}
-          <div className="hidden lg:block">
+          {/* Desktop Actions - Theme Toggle + Auth */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <ThemeToggle variant="ghost" align="end" />
             {session ? (
               <AccountDialog>
                 <Button
@@ -194,46 +123,15 @@ export function NavigationBar() {
               >
                 <SheetHeader className="text-left space-y-1 pb-6">
                   <SheetTitle className="text-xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
-                    Navigation
+                    Account
                   </SheetTitle>
                   <SheetDescription className="text-muted-foreground">
-                    Explore TanStack Start
+                    Sign in to access your account
                   </SheetDescription>
                 </SheetHeader>
 
-                <div className="flex flex-col space-y-2 pb-6">
-                  {navigationItems.map((item) => (
-                    <div key={item.label} className="relative group">
-                      {item.isExternal ? (
-                        <a
-                          href={item.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-accent/50"
-                          onClick={() => setIsOpen(false)}
-                        >
-                          <span>{item.label}</span>
-                          {item.label === "GitHub" ? (
-                            <Github className="h-4 w-4" />
-                          ) : (
-                            <ExternalLink className="h-4 w-4" />
-                          )}
-                        </a>
-                      ) : (
-                        <Link
-                          to={item.href}
-                          onClick={() => handleNavClick(item)}
-                          className="flex items-center w-full px-4 py-3 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 hover:bg-accent/50 text-left"
-                        >
-                          {item.label}
-                        </Link>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
                 {/* Mobile Auth */}
-                <div className="pt-4 border-t border-border/50">
+                <div className="pt-4">
                   {session ? (
                     <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-accent/30">
                       <Avatar className="h-10 w-10">

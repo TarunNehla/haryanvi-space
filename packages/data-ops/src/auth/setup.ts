@@ -4,10 +4,13 @@ export const createBetterAuth = (config: {
   database: BetterAuthOptions["database"];
   secret?: BetterAuthOptions["secret"];
   socialProviders?: BetterAuthOptions["socialProviders"];
+  baseURL?: string;
 }): ReturnType<typeof betterAuth> => {
   return betterAuth({
     database: config.database,
     secret: config.secret,
+    baseURL: config.baseURL,
+    trustedOrigins: ["http://localhost:3000", "http://127.0.0.1:3000"],
     emailAndPassword: {
       enabled: false,
     },

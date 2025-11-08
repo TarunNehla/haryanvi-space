@@ -10,9 +10,12 @@ console.log("[server-entry]: using custom server entry in 'src/server.ts'");
 export default {
   fetch(request: Request) {
     const db = initDatabase(env.DB);
+    const url = new URL(request.url);
+    const baseURL = `${url.protocol}//${url.host}`;
 
     setAuth({
       secret: env.BETTER_AUTH_SECRET,
+      baseURL,
       socialProviders: {
         google: {
           clientId: env.GOOGLE_CLIENT_ID,
