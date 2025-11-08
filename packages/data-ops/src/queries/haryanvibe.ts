@@ -129,3 +129,39 @@ export async function getArtistSongsByType(
 
   return { data, page, hasNextPage };
 }
+
+/**
+ * Get recently added or updated artists
+ *
+ * @param db - Drizzle database instance
+ * @param limit - Number of artists to return
+ * @returns Array of recent artists
+ */
+export async function getRecentArtists(
+  db: DrizzleD1Database,
+  limit = 10
+): Promise<Artist[]> {
+  return await db
+    .select()
+    .from(haryanvibeArtists)
+    .orderBy(desc(haryanvibeArtists.updatedAt), desc(haryanvibeArtists.createdAt))
+    .limit(limit);
+}
+
+/**
+ * Get recently added or updated songs
+ *
+ * @param db - Drizzle database instance
+ * @param limit - Number of songs to return
+ * @returns Array of recent songs
+ */
+export async function getRecentSongs(
+  db: DrizzleD1Database,
+  limit = 10
+): Promise<Song[]> {
+  return await db
+    .select()
+    .from(haryanvibeSongs)
+    .orderBy(desc(haryanvibeSongs.updatedAt), desc(haryanvibeSongs.createdAt))
+    .limit(limit);
+}

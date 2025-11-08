@@ -217,3 +217,37 @@ export async function replaceSongArtists(
   await deleteSongArtists(db, songId);
   await createSongArtists(db, songId, artistIds);
 }
+
+// ============================================================================
+// Delete Operations
+// ============================================================================
+
+/**
+ * Delete a song by ID
+ *
+ * Cascades to song_artists junction records automatically via DB constraints.
+ *
+ * @param db - Drizzle database instance
+ * @param songId - Song ID to delete
+ */
+export async function deleteSong(
+  db: DrizzleD1Database,
+  songId: string
+): Promise<void> {
+  await db.delete(haryanvibeSongs).where(eq(haryanvibeSongs.id, songId));
+}
+
+/**
+ * Delete an artist by ID
+ *
+ * Cascades to song_artists junction records automatically via DB constraints.
+ *
+ * @param db - Drizzle database instance
+ * @param artistId - Artist ID to delete
+ */
+export async function deleteArtist(
+  db: DrizzleD1Database,
+  artistId: string
+): Promise<void> {
+  await db.delete(haryanvibeArtists).where(eq(haryanvibeArtists.id, artistId));
+}

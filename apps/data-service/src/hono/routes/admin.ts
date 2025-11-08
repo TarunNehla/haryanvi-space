@@ -1,11 +1,20 @@
 /**
  * Admin Routes
  *
- * Endpoints for admin operations: sync artists, monitor workflows.
+ * Endpoints for admin operations: sync artists, monitor workflows, CRUD operations.
  */
 
 import { Hono } from "hono";
+import { initDatabase } from "@repo/data-ops/database/setup";
 import type { SyncArtistParams } from "../../workflows/sync-artist";
+import {
+  deleteSong,
+  deleteArtist,
+} from "@repo/data-ops/queries/haryanvibe-mutations";
+import {
+  getRecentArtists,
+  getRecentSongs,
+} from "@repo/data-ops/queries/haryanvibe";
 
 // ============================================================================
 // Router Setup
@@ -161,6 +170,118 @@ adminRouter.get("/workflows/:id/status", async (c) => {
     });
   } catch (error) {
     console.error("Failed to get workflow status:", error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      500
+    );
+  }
+});
+
+/**
+ * DELETE /admin/songs/:id
+ *
+ * Delete a song and its junction records
+ */
+adminRouter.delete("/songs/:id", async (c) => {
+  try {
+    const songId = c.req.param("id");
+    const db = initDatabase(c.env.DB);
+
+    await deleteSong(db, songId);
+
+    return c.json({
+      success: true,
+      message: `Song ${songId} deleted successfully`,
+    });
+  } catch (error) {
+    console.error("Failed to delete song:", error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      500
+    );
+  }
+});
+
+/**
+ * DELETE /admin/artists/:id
+ *
+ * Delete an artist and its junction records
+ */
+adminRouter.delete("/artists/:id", async (c) => {
+  try {
+    const artistId = c.req.param("id");
+    const db = initDatabase(c.env.DB);
+
+    await deleteArtist(db, artistId);
+
+    return c.json({
+      success: true,
+      message: `Artist ${artistId} deleted successfully`,
+    });
+  } catch (error) {
+    console.error("Failed to delete artist:", error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      500
+    );
+  }
+});
+
+/**
+ * GET /admin/artists/recent
+ *
+ * Get recently added or updated artists
+ */
+adminRouter.get("/artists/recent", async (c) => {
+  try {
+    const limit = parseInt(c.req.query("limit") || "10");
+    const db = initDatabase(c.env.DB);
+
+    const artists = await getRecentArtists(db, limit);
+
+    return c.json({
+      success: true,
+      artists,
+    });
+  } catch (error) {
+    console.error("Failed to get recent artists:", error);
+    return c.json(
+      {
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error",
+      },
+      500
+    );
+  }
+});
+
+/**
+ * GET /admin/songs/recent
+ *
+ * Get recently added or updated songs
+ */
+adminRouter.get("/songs/recent", async (c) => {
+  try {
+    const limit = parseInt(c.req.query("limit") || "10");
+    const db = initDatabase(c.env.DB);
+
+    const songs = await getRecentSongs(db, limit);
+
+    return c.json({
+      success: true,
+      songs,
+    });
+  } catch (error) {
+    console.error("Failed to get recent songs:", error);
     return c.json(
       {
         success: false,
