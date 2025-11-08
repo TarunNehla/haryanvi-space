@@ -12,4 +12,20 @@
   "observability": {
     "enabled": true,
   },
+
+  "workflows": [
+    {
+      "name": "sync-artist-workflow",
+      "binding": "SYNC_ARTIST_WORKFLOW",
+      "class_name": "SyncArtistWorkflow"
+    }
+  ],
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "haryanvibe-db",
+      "database_id": "preview_only"
+    }
+  ]
 }

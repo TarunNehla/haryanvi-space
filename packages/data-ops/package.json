@@ -22,6 +22,10 @@
     "./queries/*": {
       "default": "./dist/queries/*.js",
       "types": "./dist/queries/*.d.ts"
+    },
+    "./spotify/*": {
+      "default": "./dist/spotify/*.js",
+      "types": "./dist/spotify/*.d.ts"
     }
   },
   "scripts": {

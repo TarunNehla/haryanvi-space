@@ -6,3 +6,6 @@ export default class DataService extends WorkerEntrypoint<Env> {
     return app.fetch(request, this.env, this.ctx);
   }
 }
+
+// Export workflows
+export { SyncArtistWorkflow } from "./workflows/sync-artist";
