@@ -1,11 +1,12 @@
-import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
+import { createFileRoute, Outlet, Link, useRouter } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
 function AdminLayout() {
-  const pathname = Route.useRouteContext().location.pathname;
+  const router = useRouter();
+  const pathname = router.state.location.pathname;
 
   const tabs = [
     { name: "Overview", path: "/admin" },
