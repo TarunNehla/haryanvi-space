@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, Link } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_auth/app/admin")({
+export const Route = createFileRoute("/admin")({
   component: AdminLayout,
 });
 
@@ -8,10 +8,10 @@ function AdminLayout() {
   const pathname = Route.useRouteContext().location.pathname;
 
   const tabs = [
-    { name: "Overview", path: "/app/admin" },
-    { name: "Artists", path: "/app/admin/artists" },
-    { name: "Songs", path: "/app/admin/songs" },
-    { name: "Workflows", path: "/app/admin/workflows" },
+    { name: "Overview", path: "/admin" },
+    { name: "Artists", path: "/admin/artists" },
+    { name: "Songs", path: "/admin/songs" },
+    { name: "Workflows", path: "/admin/workflows" },
   ];
 
   return (

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/_auth/app/admin/")({
+export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
 });
 

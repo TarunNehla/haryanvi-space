@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 
-export const Route = createFileRoute("/_auth/app/admin/workflows")({
+export const Route = createFileRoute("/admin/workflows")({
   component: AdminWorkflows,
 });
 
