@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { apiUrl } from "../../lib/api-client";
 
 export const Route = createFileRoute("/admin/workflows")({
   component: AdminWorkflows,
@@ -14,7 +15,7 @@ function AdminWorkflows() {
     queryKey: ["workflow", monitoringId],
     queryFn: async () => {
       const res = await fetch(
-        `https://saas-kit-data-service.haryanvibe.workers.dev/admin/workflows/${monitoringId}/status`
+        apiUrl(`/admin/workflows/${monitoringId}/status`)
       );
       return res.json();
     },

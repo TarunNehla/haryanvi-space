@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { apiUrl } from "../../lib/api-client";
 
 export const Route = createFileRoute("/admin/songs")({
   component: AdminSongs,
@@ -9,9 +10,7 @@ function AdminSongs() {
   const { data: songs } = useQuery({
     queryKey: ["admin", "songs"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://saas-kit-data-service.haryanvibe.workers.dev/admin/songs/recent?limit=50"
-      );
+      const res = await fetch(apiUrl("/admin/songs/recent?limit=50"));
       return res.json();
     },
   });

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiUrl } from "../../lib/api-client";
 
 export const Route = createFileRoute("/admin/artists")({
   component: AdminArtists,
@@ -14,14 +15,11 @@ function AdminArtists() {
   // Sync artist mutation
   const syncMutation = useMutation({
     mutationFn: async (url: string) => {
-      const res = await fetch(
-        "https://saas-kit-data-service.haryanvibe.workers.dev/admin/sync-artist",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ artistUrl: url }),
-        }
-      );
+      const res = await fetch(apiUrl("/admin/sync-artist"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ artistUrl: url }),
+      });
       return res.json();
     },
     onSuccess: (data) => {
@@ -37,7 +35,7 @@ function AdminArtists() {
     queryKey: ["workflow", currentWorkflowId],
     queryFn: async () => {
       const res = await fetch(
-        `https://saas-kit-data-service.haryanvibe.workers.dev/admin/workflows/${currentWorkflowId}/status`
+        apiUrl(`/admin/workflows/${currentWorkflowId}/status`)
       );
       return res.json();
     },
@@ -55,9 +53,7 @@ function AdminArtists() {
   const { data: artists, refetch } = useQuery({
     queryKey: ["admin", "artists"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://saas-kit-data-service.haryanvibe.workers.dev/admin/artists/recent?limit=20"
-      );
+      const res = await fetch(apiUrl("/admin/artists/recent?limit=20"));
       return res.json();
     },
   });

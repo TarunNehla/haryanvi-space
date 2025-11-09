@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { apiUrl } from "../../lib/api-client";
 
 export const Route = createFileRoute("/admin/")({
   component: AdminOverview,
@@ -9,9 +10,7 @@ function AdminOverview() {
   const { data: recentArtists, isLoading: loadingArtists } = useQuery({
     queryKey: ["admin", "artists", "recent"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://saas-kit-data-service.haryanvibe.workers.dev/admin/artists/recent?limit=5"
-      );
+      const res = await fetch(apiUrl("/admin/artists/recent?limit=5"));
       return res.json();
     },
   });
@@ -19,9 +18,7 @@ function AdminOverview() {
   const { data: recentSongs, isLoading: loadingSongs } = useQuery({
     queryKey: ["admin", "songs", "recent"],
     queryFn: async () => {
-      const res = await fetch(
-        "https://saas-kit-data-service.haryanvibe.workers.dev/admin/songs/recent?limit=5"
-      );
+      const res = await fetch(apiUrl("/admin/songs/recent?limit=5"));
       return res.json();
     },
   });
