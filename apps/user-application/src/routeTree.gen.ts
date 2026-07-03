@@ -9,12 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as AdminRouteRouteImport } from './routes/admin/route'
 import { Route as StaticRouteRouteImport } from './routes/_static/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
 import { Route as ArtistArtistIdRouteImport } from './routes/artist.$artistId'
 import { Route as ApiSongsRouteImport } from './routes/api/songs'
 import { Route as ApiArtistsRouteImport } from './routes/api/artists'
+import { Route as AdminWorkflowsRouteImport } from './routes/admin/workflows'
+import { Route as AdminSongsRouteImport } from './routes/admin/songs'
+import { Route as AdminArtistsRouteImport } from './routes/admin/artists'
 import { Route as AuthAppIndexRouteImport } from './routes/_auth/app/index'
 import { Route as ChartsSongsPopularRouteImport } from './routes/charts/songs/popular'
 import { Route as ChartsSongsLatestRouteImport } from './routes/charts/songs/latest'
@@ -27,6 +32,11 @@ import { Route as AuthAppPolarSubscriptionsRouteImport } from './routes/_auth/ap
 import { Route as AuthAppPolarPortalRouteImport } from './routes/_auth/app/polar/portal'
 import { Route as AuthAppPolarCheckoutSuccessRouteImport } from './routes/_auth/app/polar/checkout.success'
 
+const AdminRouteRoute = AdminRouteRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaticRouteRoute = StaticRouteRouteImport.update({
   id: '/_static',
   getParentRoute: () => rootRouteImport,
@@ -39,6 +49,11 @@ const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const ArtistArtistIdRoute = ArtistArtistIdRouteImport.update({
   id: '/artist/$artistId',
@@ -54,6 +69,21 @@ const ApiArtistsRoute = ApiArtistsRouteImport.update({
   id: '/api/artists',
   path: '/api/artists',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminWorkflowsRoute = AdminWorkflowsRouteImport.update({
+  id: '/workflows',
+  path: '/workflows',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminSongsRoute = AdminSongsRouteImport.update({
+  id: '/songs',
+  path: '/songs',
+  getParentRoute: () => AdminRouteRoute,
+} as any)
+const AdminArtistsRoute = AdminArtistsRouteImport.update({
+  id: '/artists',
+  path: '/artists',
+  getParentRoute: () => AdminRouteRoute,
 } as any)
 const AuthAppIndexRoute = AuthAppIndexRouteImport.update({
   id: '/app/',
@@ -115,9 +145,14 @@ const AuthAppPolarCheckoutSuccessRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/admin/artists': typeof AdminArtistsRoute
+  '/admin/songs': typeof AdminSongsRoute
+  '/admin/workflows': typeof AdminWorkflowsRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
@@ -132,9 +167,13 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin/artists': typeof AdminArtistsRoute
+  '/admin/songs': typeof AdminSongsRoute
+  '/admin/workflows': typeof AdminWorkflowsRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
+  '/admin': typeof AdminIndexRoute
   '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
@@ -152,9 +191,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_auth': typeof AuthRouteRouteWithChildren
   '/_static': typeof StaticRouteRoute
+  '/admin': typeof AdminRouteRouteWithChildren
+  '/admin/artists': typeof AdminArtistsRoute
+  '/admin/songs': typeof AdminSongsRoute
+  '/admin/workflows': typeof AdminWorkflowsRoute
   '/api/artists': typeof ApiArtistsRoute
   '/api/songs': typeof ApiSongsRoute
   '/artist/$artistId': typeof ArtistArtistIdRoute
+  '/admin/': typeof AdminIndexRoute
   '/api/artist/$artistId': typeof ApiArtistArtistIdRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/charts/artists/followers': typeof ChartsArtistsFollowersRoute
@@ -171,9 +215,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/admin/artists'
+    | '/admin/songs'
+    | '/admin/workflows'
     | '/api/artists'
     | '/api/songs'
     | '/artist/$artistId'
+    | '/admin/'
     | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
@@ -188,9 +237,13 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin/artists'
+    | '/admin/songs'
+    | '/admin/workflows'
     | '/api/artists'
     | '/api/songs'
     | '/artist/$artistId'
+    | '/admin'
     | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
@@ -207,9 +260,14 @@ export interface FileRouteTypes {
     | '/'
     | '/_auth'
     | '/_static'
+    | '/admin'
+    | '/admin/artists'
+    | '/admin/songs'
+    | '/admin/workflows'
     | '/api/artists'
     | '/api/songs'
     | '/artist/$artistId'
+    | '/admin/'
     | '/api/artist/$artistId'
     | '/api/auth/$'
     | '/charts/artists/followers'
@@ -227,6 +285,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthRouteRoute: typeof AuthRouteRouteWithChildren
   StaticRouteRoute: typeof StaticRouteRoute
+  AdminRouteRoute: typeof AdminRouteRouteWithChildren
   ApiArtistsRoute: typeof ApiArtistsRoute
   ApiSongsRoute: typeof ApiSongsRoute
   ArtistArtistIdRoute: typeof ArtistArtistIdRoute
@@ -240,6 +299,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_static': {
       id: '/_static'
       path: ''
@@ -261,6 +327,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
     '/artist/$artistId': {
       id: '/artist/$artistId'
       path: '/artist/$artistId'
@@ -281,6 +354,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/artists'
       preLoaderRoute: typeof ApiArtistsRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/workflows': {
+      id: '/admin/workflows'
+      path: '/workflows'
+      fullPath: '/admin/workflows'
+      preLoaderRoute: typeof AdminWorkflowsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/songs': {
+      id: '/admin/songs'
+      path: '/songs'
+      fullPath: '/admin/songs'
+      preLoaderRoute: typeof AdminSongsRouteImport
+      parentRoute: typeof AdminRouteRoute
+    }
+    '/admin/artists': {
+      id: '/admin/artists'
+      path: '/artists'
+      fullPath: '/admin/artists'
+      preLoaderRoute: typeof AdminArtistsRouteImport
+      parentRoute: typeof AdminRouteRoute
     }
     '/_auth/app/': {
       id: '/_auth/app/'
@@ -380,6 +474,24 @@ const AuthRouteRouteWithChildren = AuthRouteRoute._addFileChildren(
   AuthRouteRouteChildren,
 )
 
+interface AdminRouteRouteChildren {
+  AdminArtistsRoute: typeof AdminArtistsRoute
+  AdminSongsRoute: typeof AdminSongsRoute
+  AdminWorkflowsRoute: typeof AdminWorkflowsRoute
+  AdminIndexRoute: typeof AdminIndexRoute
+}
+
+const AdminRouteRouteChildren: AdminRouteRouteChildren = {
+  AdminArtistsRoute: AdminArtistsRoute,
+  AdminSongsRoute: AdminSongsRoute,
+  AdminWorkflowsRoute: AdminWorkflowsRoute,
+  AdminIndexRoute: AdminIndexRoute,
+}
+
+const AdminRouteRouteWithChildren = AdminRouteRoute._addFileChildren(
+  AdminRouteRouteChildren,
+)
+
 interface ApiArtistArtistIdRouteChildren {
   ApiArtistArtistIdSongsRoute: typeof ApiArtistArtistIdSongsRoute
 }
@@ -395,6 +507,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthRouteRoute: AuthRouteRouteWithChildren,
   StaticRouteRoute: StaticRouteRoute,
+  AdminRouteRoute: AdminRouteRouteWithChildren,
   ApiArtistsRoute: ApiArtistsRoute,
   ApiSongsRoute: ApiSongsRoute,
   ArtistArtistIdRoute: ArtistArtistIdRoute,
